@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Aapki custom theme colors yahan aayengi */
+@theme {
+  --color-background: #FFF8F3;
+  --color-foreground: #1F1F1F;
+  --color-primary: #E63946;
+  --color-secondary: #F4A261;
+  --color-accent: #2A9D8F;
+  --color-card: #FFFFFF;
+}
