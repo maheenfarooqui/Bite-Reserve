@@ -2,11 +2,14 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { FiShoppingCart,FiUser, FiLogOut, FiLogIn } from 'react-icons/fi';
 import { logOut } from '../services/authService';
+import { useCart } from '../context/CartContext';
 
 import logo from '../assets/logo.png'; 
 
 const Navbar = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { cart } = useCart();
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
@@ -29,8 +32,9 @@ const Navbar = ({ user }) => {
         <div className="flex items-center gap-5">
           <Link to="/cart" className="p-2 hover:bg-gray-100 rounded-full relative text-gray-600 hover:text-primary">
             <FiShoppingCart size={22} />
-            <span className="absolute top-0 right-0 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-          </Link>
+            {cartCount > 0 && (
+            <span className="absolute top-0 right-0 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">{cartCount}</span>
+          )}</Link>
           <Link to="/reserve" className="bg-primary text-white px-5 py-2 rounded-full font-bold hover:bg-opacity-90 transition-all">
             Book a Table
           </Link>
