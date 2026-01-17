@@ -1,9 +1,51 @@
 import { useCart } from '../context/CartContext';
+import { useState } from 'react';
+import { db, auth } from '../app/firebase'; // 👈 Ye bohat zaroori hai (auth error isi se jayega)
+import { collection, addDoc } from 'firebase/firestore';
 import { FiTrash2, FiPlus, FiMinus, FiShoppingBag } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 const Cart = () => {
   const { cart, removeFromCart, totalPrice, clearCart, updateQuantity } = useCart();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+const [address, setAddress] = useState('');
+const [phone, setPhone] = useState('');
+const handlePlaceOrder = async (e) => {
+  e.preventDefault();
+
+  // 1. Check karein user login hai ya nahi
+  const user = auth.currentUser;
+  
+  if (!user) {
+    alert("Please login to place an order.");
+    return; // Code yahan ruk jayega
+  }
+
+  if (!address || !phone) {
+    alert("Please enter both address and phone number.");
+    return;
+  }
+
+  try {
+    const orderData = {
+      userId: user.uid, // Ab ye error nahi dega kyunki upar check kar liya hai
+      items: cart,
+      total: totalPrice,
+      address: address,
+      phone: phone,
+      status: 'Pending',
+      createdAt: new Date()
+    };
+
+    await addDoc(collection(db, "orders"), orderData);
+    alert("Order placed successfully!");
+    clearCart();
+    setIsCheckingOut(false);
+  } catch (error) {
+    console.error("Order error:", error);
+    alert("Error placing order. Please try again.");
+  }
+};
 
   // Quantity kam karne ka logic
   const handleDecrement = (item) => {
@@ -84,30 +126,85 @@ const Cart = () => {
 
         {/* Right Side: Summary Card */}
         <div className="lg:w-1/3">
-          <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100 sticky top-28">
-            <h3 className="text-2xl font-black mb-6 border-b pb-4">Order Summary</h3>
-            <div className="space-y-4 mb-8">
-              <div className="flex justify-between text-gray-500">
-                <span>Subtotal</span>
-                <span>${totalPrice.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-gray-500">
-                <span>Delivery Fee</span>
-                <span className="text-green-500 font-bold">FREE</span>
-              </div>
-              <div className="border-t pt-4 flex justify-between text-2xl font-black">
-                <span>Total</span>
-                <span className="text-primary">${totalPrice.toFixed(2)}</span>
-              </div>
-            </div>
+  <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100 sticky top-28">
+    <h3 className="text-2xl font-black mb-6 border-b pb-4">Order Summary</h3>
 
-            <button className="w-full bg-primary text-white py-5 rounded-2xl font-black text-xl shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-95">
-              Checkout Now
-            </button>
+    {!isCheckingOut ? (
+      /* --- Pehle ye nazar ayega --- */
+      <>
+        <div className="space-y-4 mb-8">
+          <div className="flex justify-between text-gray-500">
+            <span>Subtotal</span>
+            <span>${totalPrice.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between text-gray-500">
+            <span>Delivery Fee</span>
+            <span className="text-green-500 font-bold">FREE</span>
+          </div>
+          <div className="border-t pt-4 flex justify-between text-2xl font-black">
+            <span>Total</span>
+            <span className="text-primary">${totalPrice.toFixed(2)}</span>
           </div>
         </div>
+
+        <button 
+          onClick={() => setIsCheckingOut(true)}
+          className="w-full bg-primary text-white py-5 rounded-2xl font-black text-xl shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-95"
+        >
+          Checkout Now
+        </button>
+      </>
+    ) : (
+      /* --- Checkout dabane ke baad ye nazar ayega --- */
+      <form onSubmit={handlePlaceOrder} className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <div className="mb-4">
+          <p className="text-sm font-bold text-gray-400 mb-2 uppercase tracking-tighter">Delivery Details</p>
+          <input 
+            type="text" 
+            required
+            placeholder="Complete Address" 
+            className="w-full p-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:ring-2 focus:ring-primary/20"
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <input 
+            type="tel" 
+            required
+            placeholder="Phone Number" 
+            className="w-full p-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:ring-2 focus:ring-primary/20"
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </div>
+
+        <div className="border-t pt-4 mb-6 flex justify-between items-center">
+          <span className="font-bold">Total Amount:</span>
+          <span className="text-xl font-black text-primary">${totalPrice.toFixed(2)}</span>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <button 
+            type="submit"
+            className="w-full bg-green-500 text-white py-5 rounded-2xl font-black text-xl shadow-lg hover:bg-green-600 transition-all"
+          >
+            Confirm Order
+          </button>
+          <button 
+            type="button"
+            onClick={() => setIsCheckingOut(false)}
+            className="w-full text-gray-400 font-bold py-2 hover:text-gray-600 transition-all"
+          >
+            Back to Summary
+          </button>
+        </div>
+      </form>
+    )}
+  </div>
+</div>
       </div>
+
     </div>
+    
   );
 };
 

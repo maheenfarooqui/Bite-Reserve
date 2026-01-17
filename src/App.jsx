@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import { auth } from './app/firebase';
 import Navbar from './components/Navbar';
+import ScrollToTop from "./components/ScrollToTop";
+import Footer from './components/Footer';
 
 
 function App() {
@@ -19,17 +21,27 @@ function App() {
   }, []);
   
 
-  return (
-    <>
-      <BrowserRouter>
-      {/* Abhi hum simple rakhte hain, baad mein MainLayout use karenge */}
+ return (
+  <>
+    <BrowserRouter>
+    <ScrollToTop />
       <Navbar user={user} />
-      <div className="pt-20 pb-10 min-h-screen"> 
-        <AppRoutes />
+      
+      {/* Ye div aapke main content ka container hai */}
+      <div className="pt-20 min-h-screen flex flex-col"> 
+        
+        {/* 1. Pehle Routes aayenge (Page ka content) */}
+        <main className="flex-grow">
+          <AppRoutes />
+        </main>
+
+        {/* 2. Aakhir mein Footer aayega */}
+        <Footer />
+        
       </div>
     </BrowserRouter>
-    </>
-  )
+  </>
+)
 }
 
 export default App
