@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { db, auth } from '../app/firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import { useAuth } from "../context/AuthContext";
 import { FiMapPin, FiPhone, FiClock } from 'react-icons/fi';
 
 const Reservation = () => {
@@ -13,17 +14,20 @@ const Reservation = () => {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const { user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!auth.currentUser) return setMessage("Please login!");
+    
+    // 3. auth.currentUser ki jagah user use karein
+    if (!user) return setMessage("Please login to book a table!");
 
     setLoading(true);
     try {
       await addDoc(collection(db, "bookings"), {
         ...formData,
-        userId: auth.currentUser.uid,
-        userEmail: auth.currentUser.email,
+        userId: user.uid, // Clean way
+        userEmail: user.email,
         createdAt: new Date()
       });
       setMessage("Congratulations! Booking successful! 🎉");

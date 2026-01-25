@@ -1,23 +1,26 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const toggleCart = () => setIsCartOpen(!isCartOpen);
   const [cart, setCart] = useState([]);
   const updateQuantity = (id, type) => {
-  setCart((prevCart) =>
-    prevCart.map((item) => {
-      if (item.id === id) {
-        if (type === 'increment') {
-          return { ...item, quantity: item.quantity + 1 };
-        } else if (type === 'decrement' && item.quantity > 1) {
-          return { ...item, quantity: item.quantity - 1 };
+    setCart((prevCart) =>
+      prevCart.map((item) => {
+        if (item.id === id) {
+          if (type === "increment") {
+            return { ...item, quantity: item.quantity + 1 };
+          } else if (type === "decrement" && item.quantity > 1) {
+            return { ...item, quantity: item.quantity - 1 };
+          }
         }
-      }
-      return item;
-    })
-  );
-};
+        return item;
+      })
+    );
+  };
 
   // Add to Cart Function
   const addToCart = (item) => {
@@ -43,12 +46,26 @@ export const CartProvider = ({ children }) => {
   const clearCart = () => setCart([]);
 
   // Total Price calculation
-  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, totalPrice, updateQuantity }}>
-    {children}
-  </CartContext.Provider>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        totalPrice,
+        updateQuantity,
+        isCartOpen,  
+      toggleCart
+      }}
+    >
+      {children}
+    </CartContext.Provider>
   );
 };
 

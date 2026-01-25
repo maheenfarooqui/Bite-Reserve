@@ -1,20 +1,24 @@
 import { useState } from 'react';
-import { logIn } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from "../context/AuthContext";
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+ const handleLogin = async (e) => {
     e.preventDefault();
+    setError(''); // Purana error saaf karein
+    
     try {
-      await logIn(email, password);
-      navigate('/'); // Login ke baad home page par le jao
+      // ✅ 'logIn' ki jagah 'login' (jo useAuth se aaya hai) use karein
+      await login(email, password); 
+      navigate('/'); 
     } catch (err) {
-      setError("Ghalat Email ya Password!");
+      console.error(err);
+      setError("Something went wrong. Please try again.");
     }
   };
 

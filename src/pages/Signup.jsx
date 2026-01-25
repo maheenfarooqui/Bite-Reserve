@@ -1,31 +1,34 @@
 import { useState } from 'react';
-import { signUp } from '../services/authService';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const { signup } = useAuth();
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setError('');
 
-    // Choti si validation
+    // Validation logic (Jo aapne likha hai, wo perfect hai)
     if (password !== confirmPassword) {
-      return setError("Passwords match nahi kar rahe!");
+      return setError("Passwords do not match.");
     }
     if (password.length < 6) {
-      return setError("Password kam az kam 6 characters ka hona chahiye.");
+      return setError("Password must be at least 6 characters long.");
     }
 
     try {
-      await signUp(email, password);
-      navigate('/'); // Account banne ke baad home par le jao
+      // ✅ 'signUp' (service wala) ki jagah 'signup' (context wala) use karein
+      await signup(email, password); 
+      navigate('/'); 
     } catch (err) {
-      setError("Account nahi ban saka. Shayad email pehle se istemal mein hai.");
+      console.error(err);
+      setError("Something went wrong. Please try again.");
     }
   };
 
