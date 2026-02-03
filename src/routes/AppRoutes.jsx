@@ -7,6 +7,7 @@ import Reservation from '../pages/Reservation';
 import Checkout from '../pages/Checkout';
 import MyOrders from '../pages/MyOrders';
 import OrderSuccess from '../pages/OrderSuccess';
+import AdminDashboard from '../pages/AdminDashboard';
 const AppRoutes = ({ user }) => {
   return (    <Routes>
       <Route path="/" element={<Home />} />
@@ -17,6 +18,7 @@ const AppRoutes = ({ user }) => {
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/my-orders" element={<MyOrders user={user} />} />
       <Route path="/order-success" element={<OrderSuccess />} />
+      <Route path="/admin" element={<AdminDashboard />} />
   
       {/* Baaqi routes hum step by step add karenge */}
     </Routes>
