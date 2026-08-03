@@ -1,16 +1,148 @@
-# React + Vite
+<p align="center">
+  <img src="./src/assets/logo.png" alt="Maheen Zuhra Logo" width="120" />
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">Bite Reserve</h1>
 
-Currently, two official plugins are available:
+<p align="center">
+  Restaurant Management Platform
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
+  <a href="bitereserve.netlify.app">Live Demo</a>
+</p>
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📖 Overview
 
-## Expanding the ESLint configuration
+Bite Reserve is a full-stack restaurant management platform that enables customers to browse menus, place food orders, reserve tables, and track their order status in real time. It also provides administrators with a dedicated dashboard to efficiently manage orders, reservations, and restaurant operations.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✨ Features
+
+- User authentication
+- Browse restaurant menu
+- Online food ordering
+- Table reservation system
+- Real-time order tracking
+- Admin dashboard
+- Order status management
+- Firebase Firestore integration
+- Responsive design
+- Modern user interface
+
+---
+
+## 🎯 Problem
+
+The restaurant relied on manual communication for handling food orders and table reservations, making it difficult to organize requests, track order progress, and keep customers updated.
+
+---
+
+## 💡 Solution
+
+Developed a responsive restaurant management platform using React and Firebase that allows customers to order food, reserve tables, and monitor their orders in real time. Administrators can manage incoming orders through a dedicated dashboard and update each order's status from **Pending → Preparing → Completed**.
+
+---
+
+## 🚀 Result
+
+Delivered a modern digital ordering experience with real-time synchronization, streamlined restaurant operations, and a faster workflow for both customers and restaurant staff.
+
+---
+
+## 🛠 Tech Stack
+
+- React
+- Vite
+- Tailwind CSS
+- Firebase
+- Firestore
+- Firebase Authentication
+- Lucide React
+
+---
+
+## 📚 Engineering Insights
+
+- Designing and building a complete CRUD application with Firebase
+- Managing real-time restaurant data using Firestore
+- Implementing role-based features for customers and administrators
+- Building order lifecycle management from Pending to Preparing to Completed
+- Creating reusable React components for scalable development
+- Designing responsive interfaces focused on usability across devices
+
+---
+
+## 📂 Folder Structure
+
+```text
+Bite-Reserve/
+│
+├── public/
+│
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── context/
+│   ├── firebase/
+│   ├── hooks/
+│   ├── layouts/
+│   ├── pages/
+│   ├── routes/
+│   ├── utils/
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── package.json
+├── vite.config.js
+└── README.md
+```
+
+---
+
+## ⚙️ Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/maheenfarooqui/Bite-Reserve
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Run the development server
+
+```bash
+npm run dev
+```
+
+Create a production build
+
+```bash
+npm run build
+```
+
+---
+
+## 🌐 Live Demo
+
+YOUR_LIVE_DEMO_LINK
+
+---
+
+## 👩‍💻 Author
+
+**Maheen Zuhra**
+
+Frontend Developer
+
+- Portfolio: https://maheen-zuhra-portfolio.vercel.app/
+- LinkedIn: https://www.linkedin.com/in/maheen-zuhra/
